@@ -8,6 +8,7 @@ require_once __DIR__ . '/../src/upload.php';
 
 requireAuth();
 $user = currentUser();
+$isEditMode = isset($_GET['edit']) && $_GET['edit'] === '1';
 
 if (empty($_SESSION['profile_captcha'])) {
     $_SESSION['profile_captcha'] = random_int(1000, 9999);
@@ -114,45 +115,63 @@ require_once __DIR__ . '/../templates/header.php';
         </div>
     </div>
     <div class="col-lg-8">
-        <div class="card soft-card shadow-sm">
-            <div class="card-body p-4">
-                <h2 class="mb-3">Настройки профиля</h2>
-                <p class="text-secondary">Здесь можно изменить аватар, логин, email, телефон и пароль (опционально).</p>
-                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label">Логин</label>
-                            <input type="text" name="username" class="form-control" value="<?= htmlspecialchars($user['username']) ?>" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Email</label>
-                            <input type="email" name="email" class="form-control" value="<?= htmlspecialchars($user['email']) ?>" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Телефон</label>
-                            <input type="text" name="phone" class="form-control" value="<?= htmlspecialchars($user['phone']) ?>" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Аватар (JPG/PNG/WEBP)</label>
-                            <input type="file" name="avatar" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Новый пароль (опционально)</label>
-                            <input type="password" name="new_password" class="form-control" minlength="6">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Повторите новый пароль</label>
-                            <input type="password" name="new_password_confirm" class="form-control" minlength="6">
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label">Капча: введите число <strong><?= (int) $_SESSION['profile_captcha'] ?></strong></label>
-                            <input type="text" name="captcha" class="form-control" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-warning text-dark mt-4">Сохранить изменения</button>
-                </form>
+        <?php if (!$isEditMode): ?>
+            <div class="card soft-card shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="mb-3">Информация о пользователе</h2>
+                    <ul class="list-group list-group-flush mb-4">
+                        <li class="list-group-item"><strong>Логин:</strong> <?= htmlspecialchars($user['username']) ?></li>
+                        <li class="list-group-item"><strong>Email:</strong> <?= htmlspecialchars($user['email']) ?></li>
+                        <li class="list-group-item"><strong>Телефон:</strong> <?= htmlspecialchars($user['phone']) ?></li>
+                        <li class="list-group-item"><strong>Роль:</strong> <?= htmlspecialchars($user['role']) ?></li>
+                    </ul>
+                    <a href="<?= url('/profile.php') ?>?edit=1" class="btn btn-warning text-dark">Изменить данные пользователя</a>
+                </div>
             </div>
-        </div>
+        <?php else: ?>
+            <div class="card soft-card shadow-sm">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="mb-0">Изменение данных пользователя</h2>
+                        <a href="<?= url('/profile.php') ?>" class="btn btn-outline-light btn-sm">Назад</a>
+                    </div>
+                    <p class="text-secondary">Измените данные профиля и подтвердите капчей.</p>
+                    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Логин</label>
+                                <input type="text" name="username" class="form-control" value="<?= htmlspecialchars($user['username']) ?>" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Email</label>
+                                <input type="email" name="email" class="form-control" value="<?= htmlspecialchars($user['email']) ?>" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Телефон</label>
+                                <input type="text" name="phone" class="form-control" value="<?= htmlspecialchars($user['phone']) ?>" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Аватар (JPG/PNG/WEBP)</label>
+                                <input type="file" name="avatar" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Новый пароль (опционально)</label>
+                                <input type="password" name="new_password" class="form-control" minlength="6">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Повторите новый пароль</label>
+                                <input type="password" name="new_password_confirm" class="form-control" minlength="6">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Капча: введите число <strong><?= (int) $_SESSION['profile_captcha'] ?></strong></label>
+                                <input type="text" name="captcha" class="form-control" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-warning text-dark mt-4">Сохранить изменения</button>
+                    </form>
+                </div>
+            </div>
+        <?php endif; ?>
     </div>
 </div>
 <?php require_once __DIR__ . '/../templates/footer.php'; ?>
