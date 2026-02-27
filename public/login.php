@@ -6,7 +6,7 @@ require_once __DIR__ . '/../src/config.php';
 require_once __DIR__ . '/../src/auth.php';
 
 if (isLoggedIn()) {
-    header('Location: /index.php');
+    header('Location: ' . url('/index.php'));
     exit;
 }
 
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($user && password_verify($password, $user['password_hash'])) {
             $_SESSION['user_id'] = $user['id'];
             flash('success', 'Вы вошли в систему.');
-            header('Location: /index.php');
+            header('Location: ' . url('/index.php'));
             exit;
         }
 
@@ -36,8 +36,8 @@ require_once __DIR__ . '/../templates/header.php';
 ?>
 <div class="row justify-content-center">
     <div class="col-lg-5">
-        <div class="card shadow-sm">
-            <div class="card-body">
+        <div class="card shadow-sm soft-card">
+            <div class="card-body p-4">
                 <h2 class="mb-4">Вход</h2>
                 <form method="post">
                     <div class="mb-3">

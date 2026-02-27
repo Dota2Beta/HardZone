@@ -36,7 +36,7 @@ function isAdmin(): bool
 function requireAuth(): void
 {
     if (!isLoggedIn()) {
-        header('Location: /login.php');
+        header('Location: ' . url('/login.php'));
         exit;
     }
 }
@@ -44,7 +44,7 @@ function requireAuth(): void
 function requireAdmin(): void
 {
     if (!isAdmin()) {
-        header('Location: /index.php');
+        header('Location: ' . url('/index.php'));
         exit;
     }
 }

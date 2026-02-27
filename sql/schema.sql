@@ -21,6 +21,14 @@ CREATE TABLE IF NOT EXISTS products (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS feedback (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(80) NOT NULL,
+    email VARCHAR(120) NOT NULL,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 INSERT INTO users (username, email, phone, password_hash, role)
 VALUES
 ('admin', 'admin@hardzone.local', '+79990000000', '$2y$12$6GNwht2BpV5OwfIZZHPv/.jbDQnA7LFYYhHIFDbbz9JCHXwE7HGk2', 'admin')

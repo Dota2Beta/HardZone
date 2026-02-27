@@ -6,7 +6,7 @@ require_once __DIR__ . '/../src/config.php';
 require_once __DIR__ . '/../src/auth.php';
 
 if (isLoggedIn()) {
-    header('Location: /index.php');
+    header('Location: ' . url('/index.php'));
     exit;
 }
 
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $_SESSION['captcha'] = random_int(1000, 9999);
             flash('success', 'Регистрация прошла успешно. Теперь войдите в систему.');
-            header('Location: /login.php');
+            header('Location: ' . url('/login.php'));
             exit;
         }
     }
@@ -62,8 +62,8 @@ require_once __DIR__ . '/../templates/header.php';
 ?>
 <div class="row justify-content-center">
     <div class="col-lg-6">
-        <div class="card shadow-sm">
-            <div class="card-body">
+        <div class="card shadow-sm soft-card">
+            <div class="card-body p-4">
                 <h2 class="mb-4">Регистрация</h2>
                 <form method="post" class="needs-validation" novalidate>
                     <div class="mb-3">

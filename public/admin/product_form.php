@@ -13,7 +13,7 @@ $product = $id > 0 ? getProduct($id) : null;
 
 if ($id > 0 && !$product) {
     flash('danger', 'Товар не найден.');
-    header('Location: /admin/index.php');
+    header('Location: ' . url('/admin/index.php'));
     exit;
 }
 
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             flash('success', 'Товар добавлен.');
         }
 
-        header('Location: /admin/index.php');
+        header('Location: ' . url('/admin/index.php'));
         exit;
     }
 }
@@ -46,8 +46,8 @@ require_once __DIR__ . '/../../templates/header.php';
 ?>
 <div class="row justify-content-center">
     <div class="col-lg-8">
-        <div class="card shadow-sm">
-            <div class="card-body">
+        <div class="card shadow-sm soft-card">
+            <div class="card-body p-4">
                 <h2 class="mb-3"><?= $id > 0 ? 'Редактирование товара' : 'Добавление товара' ?></h2>
                 <form method="post">
                     <div class="mb-3"><label class="form-label">Название</label><input type="text" name="name" class="form-control" value="<?= htmlspecialchars($product['name'] ?? '') ?>" required></div>
@@ -56,7 +56,7 @@ require_once __DIR__ . '/../../templates/header.php';
                     <div class="mb-3"><label class="form-label">URL картинки</label><input type="url" name="image_url" class="form-control" value="<?= htmlspecialchars($product['image_url'] ?? '') ?>" required></div>
                     <div class="mb-3"><label class="form-label">Остаток</label><input type="number" name="stock" class="form-control" value="<?= htmlspecialchars((string) ($product['stock'] ?? '0')) ?>" required></div>
                     <button type="submit" class="btn btn-success">Сохранить</button>
-                    <a href="/admin/index.php" class="btn btn-secondary">Назад</a>
+                    <a href="<?= url('/admin/index.php') ?>" class="btn btn-secondary">Назад</a>
                 </form>
             </div>
         </div>

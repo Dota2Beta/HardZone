@@ -11,17 +11,21 @@ requireAdmin();
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
     deleteProduct((int) $_POST['delete_id']);
     flash('success', 'Товар удален.');
-    header('Location: /admin/index.php');
+    header('Location: ' . url('/admin/index.php'));
     exit;
 }
 
 $products = allProducts();
+$feedbackCount = (int) db()->query('SELECT COUNT(*) FROM feedback')->fetchColumn();
 
 require_once __DIR__ . '/../../templates/header.php';
 ?>
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0">Админ-панель: товары</h2>
-    <a href="/admin/product_form.php" class="btn btn-primary">Добавить товар</a>
+    <div class="d-flex gap-2">
+        <a href="<?= url('/admin/feedback.php') ?>" class="btn btn-outline-light">Отзывы (<?= $feedbackCount ?>)</a>
+        <a href="<?= url('/admin/product_form.php') ?>" class="btn btn-primary">Добавить товар</a>
+    </div>
 </div>
 <div class="table-responsive">
     <table class="table table-striped align-middle">
@@ -38,7 +42,7 @@ require_once __DIR__ . '/../../templates/header.php';
                 <td><?= number_format((float) $product['price'], 0, '.', ' ') ?> ₽</td>
                 <td><?= (int) $product['stock'] ?></td>
                 <td>
-                    <a class="btn btn-sm btn-outline-primary" href="/admin/product_form.php?id=<?= (int) $product['id'] ?>">Редактировать</a>
+                    <a class="btn btn-sm btn-outline-primary" href="<?= url('/admin/product_form.php') ?>?id=<?= (int) $product['id'] ?>">Редактировать</a>
                     <form method="post" class="d-inline" onsubmit="return confirm('Удалить товар?')">
                         <input type="hidden" name="delete_id" value="<?= (int) $product['id'] ?>">
                         <button type="submit" class="btn btn-sm btn-outline-danger">Удалить</button>

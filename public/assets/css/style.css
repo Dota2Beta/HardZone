@@ -1,17 +1,77 @@
+:root {
+    --bg: #0f1221;
+    --card: #171b2e;
+    --accent: #5b8cff;
+}
+
 body {
-    background: #f4f6fb;
+    background:
+        radial-gradient(circle at 10% 10%, rgba(91, 140, 255, 0.16), transparent 30%),
+        radial-gradient(circle at 90% 20%, rgba(145, 76, 255, 0.14), transparent 35%),
+        #0d1020;
+    color: #e9ecff;
+    min-height: 100vh;
+}
+
+.glass-nav {
+    background: rgba(8, 10, 22, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.brand-glow {
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 12px rgba(91, 140, 255, 0.7);
 }
 
 .hero {
-    background: linear-gradient(135deg, #212529, #2f5be7);
+    background: linear-gradient(125deg, #1d2440, #355ce5);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mini-stat,
+.info-panel {
+    background: rgba(23, 27, 46, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    padding: 1rem 1.2rem;
+}
+
+.product-card,
+.soft-card,
+.table {
+    background: rgba(23, 27, 46, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    color: #edf0ff;
+}
+
+.form-control,
+textarea,
+.table,
+.table td,
+.table th {
+    color: #edf0ff !important;
+}
+
+.form-control,
+textarea {
+    background: rgba(13, 16, 32, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.form-control::placeholder {
+    color: #99a0c9;
 }
 
 .product-img {
     height: 220px;
     object-fit: cover;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
 }
 
-.card {
-    border: 0;
-    border-radius: 1rem;
+.footer-zone {
+    background: rgba(8, 10, 22, 0.95);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
