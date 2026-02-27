@@ -27,6 +27,8 @@ $flashes = getFlashes();
             <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2 w-100 justify-content-lg-end">
                 <li class="nav-item"><a class="nav-link" href="<?= url('/index.php') ?>">Главная</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?= url('/catalog.php') ?>">Каталог</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?= url('/about.php') ?>">О нас</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?= url('/reviews.php') ?>">Отзывы</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?= url('/feedback.php') ?>">Обратная связь</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?= url('/cart.php') ?>">Корзина (<?= cartCount() ?>)</a></li>
                 <?php if ($user): ?>
