@@ -168,20 +168,14 @@ require_once __DIR__ . '/../templates/header.php';
                                 <div class="avatar-editor" id="avatarEditor" style="display:none;">
                                     <label class="form-label">Предпросмотр и подрезка аватарки</label>
                                     <canvas id="avatarPreviewCanvas" width="260" height="260"></canvas>
-                                    <div class="row g-2 mt-2">
-                                        <div class="col-md-4">
-                                            <label class="small">Масштаб</label>
+                                    <div class="avatar-editor-toolbar mt-2">
+                                        <div class="flex-grow-1">
+                                            <label class="small mb-1">Масштаб</label>
                                             <input type="range" id="cropZoom" class="form-range" min="1" max="3" step="0.01" value="1">
                                         </div>
-                                        <div class="col-md-4">
-                                            <label class="small">Сдвиг по X</label>
-                                            <input type="range" id="cropX" class="form-range" min="-100" max="100" step="1" value="0">
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="small">Сдвиг по Y</label>
-                                            <input type="range" id="cropY" class="form-range" min="-100" max="100" step="1" value="0">
-                                        </div>
+                                        <button type="button" class="btn btn-sm btn-outline-light" id="cropResetBtn">Сбросить</button>
                                     </div>
+                                    <p class="small text-secondary mt-2 mb-0">Перетаскивайте изображение мышью прямо в окне предпросмотра для удобной подрезки.</p>
                                 </div>
                             </div>
                             <div class="col-md-6">

@@ -20,14 +20,20 @@ document.querySelectorAll('.needs-validation').forEach((form) => {
 
     const ctx = canvas.getContext('2d');
     const zoom = document.getElementById('cropZoom');
-    const cropX = document.getElementById('cropX');
-    const cropY = document.getElementById('cropY');
+    const resetBtn = document.getElementById('cropResetBtn');
     const zoomHidden = document.getElementById('avatarZoom');
     const xHidden = document.getElementById('avatarX');
     const yHidden = document.getElementById('avatarY');
     const cHidden = document.getElementById('avatarCanvas');
 
     let image = null;
+    let xValue = 0;
+    let yValue = 0;
+    let dragging = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
     const draw = () => {
         if (!image) {
@@ -36,8 +42,6 @@ document.querySelectorAll('.needs-validation').forEach((form) => {
 
         const size = canvas.width;
         const zoomValue = Number(zoom.value);
-        const xValue = Number(cropX.value);
-        const yValue = Number(cropY.value);
 
         const baseScale = Math.max(size / image.width, size / image.height);
         const displayScale = baseScale * zoomValue;
@@ -56,17 +60,86 @@ document.querySelectorAll('.needs-validation').forEach((form) => {
         ctx.clearRect(0, 0, size, size);
         ctx.drawImage(image, drawX, drawY, drawW, drawH);
 
+        ctx.strokeStyle = 'rgba(255,255,255,0.85)';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(1, 1, size - 2, size - 2);
+
         zoomHidden.value = String(zoomValue);
-        xHidden.value = String(xValue);
-        yHidden.value = String(yValue);
+        xHidden.value = String(Math.round(xValue));
+        yHidden.value = String(Math.round(yValue));
         cHidden.value = String(size);
     };
 
-    [zoom, cropX, cropY].forEach((el) => el.addEventListener('input', draw));
+    const startDrag = (x, y) => {
+        dragging = true;
+        lastX = x;
+        lastY = y;
+        canvas.classList.add('dragging');
+    };
+
+    const moveDrag = (x, y) => {
+        if (!dragging || !image) {
+            return;
+        }
+
+        const dx = x - lastX;
+        const dy = y - lastY;
+        lastX = x;
+        lastY = y;
+
+        const size = canvas.width;
+        const zoomValue = Number(zoom.value);
+        const baseScale = Math.max(size / image.width, size / image.height);
+        const displayScale = baseScale * zoomValue;
+        const drawW = image.width * displayScale;
+        const drawH = image.height * displayScale;
+
+        const maxOffsetX = Math.max(1, (drawW - size) / 2);
+        const maxOffsetY = Math.max(1, (drawH - size) / 2);
+
+        xValue = clamp(xValue + (dx / maxOffsetX) * 100, -100, 100);
+        yValue = clamp(yValue + (dy / maxOffsetY) * 100, -100, 100);
+
+        draw();
+    };
+
+    const endDrag = () => {
+        dragging = false;
+        canvas.classList.remove('dragging');
+    };
+
+    zoom.addEventListener('input', draw);
+    if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+            zoom.value = '1';
+            xValue = 0;
+            yValue = 0;
+            draw();
+        });
+    }
+
+    canvas.addEventListener('mousedown', (e) => startDrag(e.offsetX, e.offsetY));
+    canvas.addEventListener('mousemove', (e) => moveDrag(e.offsetX, e.offsetY));
+    canvas.addEventListener('mouseup', endDrag);
+    canvas.addEventListener('mouseleave', endDrag);
+
+    canvas.addEventListener('touchstart', (e) => {
+        const t = e.touches[0];
+        const r = canvas.getBoundingClientRect();
+        startDrag(t.clientX - r.left, t.clientY - r.top);
+    }, { passive: true });
+
+    canvas.addEventListener('touchmove', (e) => {
+        if (!dragging) return;
+        const t = e.touches[0];
+        const r = canvas.getBoundingClientRect();
+        moveDrag(t.clientX - r.left, t.clientY - r.top);
+    }, { passive: true });
+
+    canvas.addEventListener('touchend', endDrag, { passive: true });
 
     input.addEventListener('change', () => {
         const file = input.files?.[0];
-
         if (!file) {
             return;
         }
@@ -78,13 +151,12 @@ document.querySelectorAll('.needs-validation').forEach((form) => {
                 image = img;
                 editor.style.display = 'block';
                 zoom.value = '1';
-                cropX.value = '0';
-                cropY.value = '0';
+                xValue = 0;
+                yValue = 0;
                 draw();
             };
             img.src = String(reader.result);
         };
-
         reader.readAsDataURL(file);
     });
 })();

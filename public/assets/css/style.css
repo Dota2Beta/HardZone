@@ -162,3 +162,33 @@ textarea:focus {
     border: 1px solid var(--line);
     display: block;
 }
+
+
+.avatar-nav-item {
+    margin-left: auto;
+}
+
+.nav-avatar-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-avatar-lg {
+    width: 48px;
+    height: 48px;
+}
+
+#avatarPreviewCanvas {
+    cursor: grab;
+}
+
+#avatarPreviewCanvas.dragging {
+    cursor: grabbing;
+}
+
+.avatar-editor-toolbar {
+    display: flex;
+    align-items: end;
+    gap: 12px;
+}

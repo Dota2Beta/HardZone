@@ -23,25 +23,24 @@ $flashes = getFlashes();
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="mainNav">
-            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2 w-100 justify-content-lg-end">
                 <li class="nav-item"><a class="nav-link" href="<?= url('/index.php') ?>">Каталог</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?= url('/feedback.php') ?>">Обратная связь</a></li>
                 <?php if ($user): ?>
-                    <?php $navAvatar = $user['avatar_path'] ?? null; ?>
-                    <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center gap-2" href="<?= url('/profile.php') ?>">
-                            <?php if ($navAvatar): ?>
-                                <img src="<?= htmlspecialchars($navAvatar) ?>" class="nav-avatar" alt="avatar">
-                            <?php else: ?>
-                                <span class="nav-avatar nav-avatar-placeholder">👤</span>
-                            <?php endif; ?>
-                            Профиль
-                        </a>
-                    </li>
                     <?php if ($user['role'] === 'admin'): ?>
                         <li class="nav-item"><a class="nav-link" href="<?= url('/admin/index.php') ?>">Админ-панель</a></li>
                     <?php endif; ?>
                     <li class="nav-item"><a class="btn btn-sm btn-outline-light px-3" href="<?= url('/logout.php') ?>">Выход</a></li>
+                    <?php $navAvatar = $user['avatar_path'] ?? null; ?>
+                    <li class="nav-item ms-lg-3 avatar-nav-item">
+                        <a class="nav-avatar-link" href="<?= url('/profile.php') ?>" title="Профиль" aria-label="Профиль">
+                            <?php if ($navAvatar): ?>
+                                <img src="<?= htmlspecialchars($navAvatar) ?>" class="nav-avatar nav-avatar-lg" alt="avatar">
+                            <?php else: ?>
+                                <span class="nav-avatar nav-avatar-lg nav-avatar-placeholder">👤</span>
+                            <?php endif; ?>
+                        </a>
+                    </li>
                 <?php else: ?>
                     <li class="nav-item"><a class="nav-link" href="<?= url('/login.php') ?>">Вход</a></li>
                     <li class="nav-item"><a class="btn btn-sm btn-warning text-dark px-3" href="<?= url('/register.php') ?>">Регистрация</a></li>
