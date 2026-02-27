@@ -14,7 +14,7 @@ function currentUser(): ?array
         return null;
     }
 
-    $stmt = db()->prepare('SELECT id, username, email, phone, role FROM users WHERE id = :id');
+    $stmt = db()->prepare('SELECT id, username, email, phone, role, avatar_path, created_at FROM users WHERE id = :id');
     $stmt->execute(['id' => $_SESSION['user_id']]);
     $user = $stmt->fetch();
 

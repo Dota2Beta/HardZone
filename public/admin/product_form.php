@@ -5,6 +5,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../../src/config.php';
 require_once __DIR__ . '/../../src/auth.php';
 require_once __DIR__ . '/../../src/product.php';
+require_once __DIR__ . '/../../src/upload.php';
 
 requireAdmin();
 
@@ -18,17 +19,22 @@ if ($id > 0 && !$product) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = [
-        'name' => trim($_POST['name'] ?? ''),
-        'description' => trim($_POST['description'] ?? ''),
-        'price' => (float) ($_POST['price'] ?? 0),
-        'image_url' => trim($_POST['image_url'] ?? ''),
-        'stock' => (int) ($_POST['stock'] ?? 0),
-    ];
+    try {
+        $currentImage = $product['image_url'] ?? '';
+        $uploadedImage = handleImageUpload('product_image', 'uploads/products');
 
-    if ($data['name'] === '' || $data['description'] === '' || $data['price'] <= 0 || $data['image_url'] === '' || $data['stock'] < 0) {
-        flash('danger', 'Заполните форму корректно.');
-    } else {
+        $data = [
+            'name' => trim($_POST['name'] ?? ''),
+            'description' => trim($_POST['description'] ?? ''),
+            'price' => (float) ($_POST['price'] ?? 0),
+            'image_url' => $uploadedImage ?? $currentImage,
+            'stock' => (int) ($_POST['stock'] ?? 0),
+        ];
+
+        if ($data['name'] === '' || $data['description'] === '' || $data['price'] <= 0 || $data['image_url'] === '' || $data['stock'] < 0) {
+            throw new RuntimeException('Заполните форму корректно и загрузите изображение товара.');
+        }
+
         if ($id > 0) {
             updateProduct($id, $data);
             flash('success', 'Товар обновлен.');
@@ -39,6 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         header('Location: ' . url('/admin/index.php'));
         exit;
+    } catch (RuntimeException $e) {
+        flash('danger', $e->getMessage());
     }
 }
 
@@ -49,11 +57,14 @@ require_once __DIR__ . '/../../templates/header.php';
         <div class="card shadow-sm soft-card">
             <div class="card-body p-4">
                 <h2 class="mb-3"><?= $id > 0 ? 'Редактирование товара' : 'Добавление товара' ?></h2>
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     <div class="mb-3"><label class="form-label">Название</label><input type="text" name="name" class="form-control" value="<?= htmlspecialchars($product['name'] ?? '') ?>" required></div>
                     <div class="mb-3"><label class="form-label">Описание</label><textarea name="description" class="form-control" rows="4" required><?= htmlspecialchars($product['description'] ?? '') ?></textarea></div>
                     <div class="mb-3"><label class="form-label">Цена</label><input type="number" step="0.01" name="price" class="form-control" value="<?= htmlspecialchars((string) ($product['price'] ?? '')) ?>" required></div>
-                    <div class="mb-3"><label class="form-label">URL картинки</label><input type="url" name="image_url" class="form-control" value="<?= htmlspecialchars($product['image_url'] ?? '') ?>" required></div>
+                    <div class="mb-3"><label class="form-label">Изображение товара (JPG/PNG/WEBP)</label><input type="file" name="product_image" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" <?= $id > 0 ? '' : 'required' ?>></div>
+                    <?php if (!empty($product['image_url'])): ?>
+                        <div class="mb-3"><img src="<?= htmlspecialchars($product['image_url']) ?>" class="admin-preview" alt="preview"></div>
+                    <?php endif; ?>
                     <div class="mb-3"><label class="form-label">Остаток</label><input type="number" name="stock" class="form-control" value="<?= htmlspecialchars((string) ($product['stock'] ?? '0')) ?>" required></div>
                     <button type="submit" class="btn btn-success">Сохранить</button>
                     <a href="<?= url('/admin/index.php') ?>" class="btn btn-secondary">Назад</a>
