@@ -24,7 +24,8 @@ $flashes = getFlashes();
         </button>
         <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2 w-100 justify-content-lg-end">
-                <li class="nav-item"><a class="nav-link" href="<?= url('/index.php') ?>">Каталог</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?= url('/index.php') ?>">Главная</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?= url('/catalog.php') ?>">Каталог</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?= url('/feedback.php') ?>">Обратная связь</a></li>
                 <?php if ($user): ?>
                     <?php if ($user['role'] === 'admin'): ?>
