@@ -31,14 +31,22 @@ $flashes = getFlashes();
                         <li class="nav-item"><a class="nav-link" href="<?= url('/admin/index.php') ?>">Админ-панель</a></li>
                     <?php endif; ?>
                     <li class="nav-item"><a class="btn btn-sm btn-outline-light px-3" href="<?= url('/logout.php') ?>">Выход</a></li>
-                    <?php $navAvatar = $user['avatar_path'] ?? null; ?>
+                    <?php
+                        $navAvatar = $user['avatar_path'] ?? null;
+                        $username = (string) ($user['username'] ?? '');
+                        $initials = mb_strtoupper(mb_substr(trim($username), 0, 2));
+                        if ($initials === '') {
+                            $initials = 'U';
+                        }
+                    ?>
                     <li class="nav-item ms-lg-3 avatar-nav-item">
                         <a class="nav-avatar-link" href="<?= url('/profile.php') ?>" title="Профиль" aria-label="Профиль">
                             <?php if ($navAvatar): ?>
                                 <img src="<?= htmlspecialchars($navAvatar) ?>" class="nav-avatar nav-avatar-lg" alt="avatar">
                             <?php else: ?>
-                                <span class="nav-avatar nav-avatar-lg nav-avatar-placeholder">👤</span>
+                                <span class="nav-avatar nav-avatar-lg nav-avatar-placeholder"><?= htmlspecialchars($initials) ?></span>
                             <?php endif; ?>
+                            <span class="nav-username"><?= htmlspecialchars($username) ?></span>
                         </a>
                     </li>
                 <?php else: ?>

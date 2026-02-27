@@ -192,3 +192,33 @@ textarea:focus {
     align-items: end;
     gap: 12px;
 }
+
+
+.nav-avatar-link {
+    text-decoration: none;
+    color: #fff;
+    gap: 10px;
+    padding: 2px 6px;
+    border-radius: 999px;
+    transition: background 0.2s ease;
+}
+
+.nav-avatar-link:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+}
+
+.nav-avatar-placeholder {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+}
+
+.nav-username {
+    font-weight: 600;
+    font-size: 0.95rem;
+    max-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
