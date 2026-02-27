@@ -1,0 +1,17 @@
+body {
+    background: #f4f6fb;
+}
+
+.hero {
+    background: linear-gradient(135deg, #212529, #2f5be7);
+}
+
+.product-img {
+    height: 220px;
+    object-fit: cover;
+}
+
+.card {
+    border: 0;
+    border-radius: 1rem;
+}
