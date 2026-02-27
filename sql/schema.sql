@@ -41,3 +41,23 @@ VALUES
 ('HardZone Pro', 'Intel Core i7, 32GB RAM, SSD 1TB, RTX 4070 Ti', 149990, 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=900&q=80', 4),
 ('HardZone Ultra', 'Ryzen 9, 64GB RAM, SSD 2TB, RTX 4090', 259990, 'https://images.unsplash.com/photo-1624705002806-5d72df19c3ab?auto=format&fit=crop&w=900&q=80', 2)
 ON DUPLICATE KEY UPDATE name = VALUES(name);
+
+
+CREATE TABLE IF NOT EXISTS orders (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NULL,
+    customer_name VARCHAR(120) NOT NULL,
+    customer_email VARCHAR(120) NOT NULL,
+    payment_method VARCHAR(20) NOT NULL,
+    total_amount DECIMAL(10,2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS order_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

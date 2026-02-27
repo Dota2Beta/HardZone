@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../src/auth.php';
+require_once __DIR__ . '/../src/cart.php';
 $user = currentUser();
 $flashes = getFlashes();
 ?>
@@ -27,6 +28,7 @@ $flashes = getFlashes();
                 <li class="nav-item"><a class="nav-link" href="<?= url('/index.php') ?>">Главная</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?= url('/catalog.php') ?>">Каталог</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?= url('/feedback.php') ?>">Обратная связь</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?= url('/cart.php') ?>">Корзина (<?= cartCount() ?>)</a></li>
                 <?php if ($user): ?>
                     <?php if ($user['role'] === 'admin'): ?>
                         <li class="nav-item"><a class="nav-link" href="<?= url('/admin/index.php') ?>">Админ-панель</a></li>
