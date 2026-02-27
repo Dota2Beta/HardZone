@@ -16,9 +16,9 @@ $flashes = getFlashes();
     <link rel="stylesheet" href="<?= url('/assets/css/style.css') ?>">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark glass-nav sticky-top">
+<nav class="navbar navbar-expand-lg navbar-dark hz-navbar sticky-top">
     <div class="container">
-        <a class="navbar-brand fw-bold brand-glow" href="<?= url('/index.php') ?>">HardZone</a>
+        <a class="navbar-brand fw-bold" href="<?= url('/index.php') ?>">⚡ HardZone</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -34,7 +34,7 @@ $flashes = getFlashes();
                     <li class="nav-item"><a class="btn btn-sm btn-outline-light px-3" href="<?= url('/logout.php') ?>">Выход</a></li>
                 <?php else: ?>
                     <li class="nav-item"><a class="nav-link" href="<?= url('/login.php') ?>">Вход</a></li>
-                    <li class="nav-item"><a class="btn btn-sm btn-primary px-3" href="<?= url('/register.php') ?>">Регистрация</a></li>
+                    <li class="nav-item"><a class="btn btn-sm btn-warning text-dark px-3" href="<?= url('/register.php') ?>">Регистрация</a></li>
                 <?php endif; ?>
             </ul>
         </div>
