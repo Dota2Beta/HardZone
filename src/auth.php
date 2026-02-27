@@ -14,11 +14,22 @@ function currentUser(): ?array
         return null;
     }
 
-    $stmt = db()->prepare('SELECT id, username, email, phone, role, avatar_path, created_at FROM users WHERE id = :id');
+    $fields = 'id, username, email, phone, role, created_at';
+    if (tableHasColumn('users', 'avatar_path')) {
+        $fields .= ', avatar_path';
+    }
+
+    $stmt = db()->prepare('SELECT ' . $fields . ' FROM users WHERE id = :id');
     $stmt->execute(['id' => $_SESSION['user_id']]);
     $user = $stmt->fetch();
 
-    return $user ?: null;
+    if (!$user) {
+        return null;
+    }
+
+    $user['avatar_path'] = $user['avatar_path'] ?? null;
+
+    return $user;
 }
 
 function isLoggedIn(): bool

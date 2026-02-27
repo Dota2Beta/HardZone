@@ -60,10 +60,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'username' => $username,
             'email' => $email,
             'phone' => $phone,
-            'avatar_path' => $avatarPath,
         ];
 
-        $sql = 'UPDATE users SET username = :username, email = :email, phone = :phone, avatar_path = :avatar_path';
+        $sql = 'UPDATE users SET username = :username, email = :email, phone = :phone';
+
+        if (tableHasColumn('users', 'avatar_path')) {
+            $sql .= ', avatar_path = :avatar_path';
+            $params['avatar_path'] = $avatarPath;
+        }
 
         if ($newPassword !== '' || $newPasswordConfirm !== '') {
             if (strlen($newPassword) < 6) {
