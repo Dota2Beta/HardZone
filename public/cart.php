@@ -19,6 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     }
 
     if ($_POST['action'] === 'checkout') {
+        if (!$user) {
+            flash('danger', 'Для покупки товара необходимо войти в аккаунт.');
+            header('Location: ' . url('/login.php'));
+            exit;
+        }
+
         $items = cartDetailedItems();
         if (empty($items)) {
             flash('danger', 'Корзина пуста.');
@@ -65,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
             $insertOrder = db()->prepare('INSERT INTO orders (user_id, customer_name, customer_email, payment_method, total_amount) VALUES (:user_id, :customer_name, :customer_email, :payment_method, :total_amount)');
             $insertOrder->execute([
-                'user_id' => $user['id'] ?? null,
+                'user_id' => $user['id'],
                 'customer_name' => $customerName,
                 'customer_email' => $customerEmail,
                 'payment_method' => $paymentMethod,
@@ -143,20 +149,28 @@ require_once __DIR__ . '/../templates/header.php';
         <div class="card-body">
             <h4 class="mb-3">Оплата заказа</h4>
             <p class="mb-3">Итого к оплате: <strong><?= number_format($total, 0, '.', ' ') ?> ₽</strong></p>
-            <form method="post" class="row g-3">
-                <input type="hidden" name="action" value="checkout">
-                <div class="col-md-4"><input type="text" name="customer_name" class="form-control" placeholder="Ваше имя" value="<?= htmlspecialchars($user['username'] ?? '') ?>" required></div>
-                <div class="col-md-4"><input type="email" name="customer_email" class="form-control" placeholder="Email для чека" value="<?= htmlspecialchars($user['email'] ?? '') ?>" required></div>
-                <div class="col-md-4">
-                    <select class="form-select" name="payment_method" required>
-                        <option value="">Способ оплаты</option>
-                        <option value="card">Банковская карта</option>
-                        <option value="sbp">СБП</option>
-                        <option value="cash">При получении</option>
-                    </select>
+
+            <?php if (!$user): ?>
+                <div class="alert alert-warning mb-0">
+                    Для покупки товара необходимо авторизоваться.
+                    <a href="<?= url('/login.php') ?>" class="alert-link">Войти в аккаунт</a>
                 </div>
-                <div class="col-12"><button class="btn btn-warning text-dark" type="submit">Оплатить и оформить заказ</button></div>
-            </form>
+            <?php else: ?>
+                <form method="post" class="row g-3">
+                    <input type="hidden" name="action" value="checkout">
+                    <div class="col-md-4"><input type="text" name="customer_name" class="form-control" placeholder="Ваше имя" value="<?= htmlspecialchars($user['username']) ?>" required></div>
+                    <div class="col-md-4"><input type="email" name="customer_email" class="form-control" placeholder="Email для чека" value="<?= htmlspecialchars($user['email']) ?>" required></div>
+                    <div class="col-md-4">
+                        <select class="form-select" name="payment_method" required>
+                            <option value="">Способ оплаты</option>
+                            <option value="card">Банковская карта</option>
+                            <option value="sbp">СБП</option>
+                            <option value="cash">При получении</option>
+                        </select>
+                    </div>
+                    <div class="col-12"><button class="btn btn-warning text-dark" type="submit">Оплатить и оформить заказ</button></div>
+                </form>
+            <?php endif; ?>
         </div>
     </div>
 <?php endif; ?>
