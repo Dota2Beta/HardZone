@@ -51,7 +51,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $avatarPath = $user['avatar_path'];
-        $uploaded = handleImageUpload('avatar', 'uploads/avatars');
+        $uploaded = handleImageUpload('avatar', 'uploads/avatars', ['jpg', 'jpeg', 'png', 'webp'], [
+            'zoom' => $_POST['avatar_zoom'] ?? 1,
+            'x' => $_POST['avatar_x'] ?? 0,
+            'y' => $_POST['avatar_y'] ?? 0,
+            'canvas' => $_POST['avatar_canvas'] ?? 260,
+        ]);
         if ($uploaded !== null) {
             $avatarPath = $uploaded;
         }
@@ -152,7 +157,32 @@ require_once __DIR__ . '/../templates/header.php';
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Аватар (JPG/PNG/WEBP)</label>
-                                <input type="file" name="avatar" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
+                                <input type="file" id="avatarInput" name="avatar" class="form-control" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
+                                <input type="hidden" name="avatar_zoom" id="avatarZoom" value="1">
+                                <input type="hidden" name="avatar_x" id="avatarX" value="0">
+                                <input type="hidden" name="avatar_y" id="avatarY" value="0">
+                                <input type="hidden" name="avatar_canvas" id="avatarCanvas" value="260">
+                            </div>
+
+                            <div class="col-12">
+                                <div class="avatar-editor" id="avatarEditor" style="display:none;">
+                                    <label class="form-label">Предпросмотр и подрезка аватарки</label>
+                                    <canvas id="avatarPreviewCanvas" width="260" height="260"></canvas>
+                                    <div class="row g-2 mt-2">
+                                        <div class="col-md-4">
+                                            <label class="small">Масштаб</label>
+                                            <input type="range" id="cropZoom" class="form-range" min="1" max="3" step="0.01" value="1">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="small">Сдвиг по X</label>
+                                            <input type="range" id="cropX" class="form-range" min="-100" max="100" step="1" value="0">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="small">Сдвиг по Y</label>
+                                            <input type="range" id="cropY" class="form-range" min="-100" max="100" step="1" value="0">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Новый пароль (опционально)</label>

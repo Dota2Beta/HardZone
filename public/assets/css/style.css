@@ -130,3 +130,35 @@ textarea:focus {
     background: rgba(8, 12, 30, 0.9);
     border-top: 1px solid var(--line);
 }
+
+.nav-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(255,255,255,0.4);
+}
+
+.nav-avatar-placeholder {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.18);
+    font-size: 14px;
+}
+
+.avatar-editor {
+    background: rgba(10, 15, 36, 0.45);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px;
+}
+
+#avatarPreviewCanvas {
+    width: 260px;
+    height: 260px;
+    max-width: 100%;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    display: block;
+}

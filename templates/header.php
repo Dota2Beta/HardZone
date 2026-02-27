@@ -27,7 +27,17 @@ $flashes = getFlashes();
                 <li class="nav-item"><a class="nav-link" href="<?= url('/index.php') ?>">Каталог</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?= url('/feedback.php') ?>">Обратная связь</a></li>
                 <?php if ($user): ?>
-                    <li class="nav-item"><a class="nav-link" href="<?= url('/profile.php') ?>">Профиль</a></li>
+                    <?php $navAvatar = $user['avatar_path'] ?? null; ?>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-2" href="<?= url('/profile.php') ?>">
+                            <?php if ($navAvatar): ?>
+                                <img src="<?= htmlspecialchars($navAvatar) ?>" class="nav-avatar" alt="avatar">
+                            <?php else: ?>
+                                <span class="nav-avatar nav-avatar-placeholder">👤</span>
+                            <?php endif; ?>
+                            Профиль
+                        </a>
+                    </li>
                     <?php if ($user['role'] === 'admin'): ?>
                         <li class="nav-item"><a class="nav-link" href="<?= url('/admin/index.php') ?>">Админ-панель</a></li>
                     <?php endif; ?>
