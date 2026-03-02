@@ -10,6 +10,13 @@ $user = currentUser();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     if ($_POST['action'] === 'update') {
+        $removeId = (int) ($_POST['remove_id'] ?? 0);
+        if ($removeId > 0) {
+            updateCartItem($removeId, 0);
+            flash('success', 'Товар удалён из корзины.');
+            header('Location: ' . url('/cart.php'));
+            exit;
+        }
         foreach ($_POST['qty'] ?? [] as $productId => $qty) {
             updateCartItem((int) $productId, (int) $qty);
         }
@@ -128,7 +135,7 @@ require_once __DIR__ . '/../templates/header.php';
             <input type="hidden" name="action" value="update">
             <div class="table-responsive">
                 <table class="table align-middle">
-                    <thead><tr><th>Товар</th><th>Цена</th><th>Кол-во</th><th>Сумма</th></tr></thead>
+                    <thead><tr><th>Товар</th><th>Цена</th><th>Кол-во</th><th>Сумма</th><th></th></tr></thead>
                     <tbody>
                     <?php foreach ($items as $item): ?>
                         <tr>
@@ -136,6 +143,7 @@ require_once __DIR__ . '/../templates/header.php';
                             <td><?= number_format((float) $item['product']['price'], 0, '.', ' ') ?> ₽</td>
                             <td><input class="form-control" style="max-width:100px" type="number" min="0" max="<?= (int) $item['product']['stock'] ?>" name="qty[<?= (int) $item['product']['id'] ?>]" value="<?= (int) $item['qty'] ?>"></td>
                             <td><?= number_format((float) $item['subtotal'], 0, '.', ' ') ?> ₽</td>
+                            <td><button type="submit" name="remove_id" value="<?= (int) $item['product']['id'] ?>" class="btn btn-sm btn-outline-danger">Удалить</button></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>

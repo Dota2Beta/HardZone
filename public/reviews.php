@@ -24,6 +24,11 @@ try {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!$user) {
+        flash('danger', 'Оставлять отзывы могут только зарегистрированные пользователи.');
+        header('Location: ' . url('/login.php'));
+        exit;
+    }
     $name = trim($_POST['name'] ?? '');
     $rating = (int) ($_POST['rating'] ?? 0);
     $message = trim($_POST['message'] ?? '');
@@ -69,32 +74,40 @@ require_once __DIR__ . '/../templates/header.php';
             <div class="card-body p-4">
                 <h1 class="mb-3">Отзывы</h1>
                 <p class="text-secondary">Это отдельная страница отзывов, не связанная с разделом обратной связи.</p>
-                <form method="post" class="needs-validation" novalidate>
-                    <div class="mb-3">
-                        <label class="form-label">Ваше имя</label>
-                        <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($user['username'] ?? '') ?>" required>
+                <?php if (!$user): ?>
+                    <div class="alert alert-warning mb-0">
+                        Оставлять отзывы могут только зарегистрированные пользователи.
+                        <a href="<?= url('/login.php') ?>" class="alert-link">Войти</a>
+                        или <a href="<?= url('/register.php') ?>" class="alert-link">зарегистрироваться</a>.
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Оценка</label>
-                        <select name="rating" class="form-select" required>
-                            <option value="">Выберите</option>
-                            <option value="5">5 - Отлично</option>
-                            <option value="4">4 - Хорошо</option>
-                            <option value="3">3 - Нормально</option>
-                            <option value="2">2 - Слабо</option>
-                            <option value="1">1 - Плохо</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Текст отзыва</label>
-                        <textarea name="message" rows="4" class="form-control" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Капча: введите число <strong><?= (int) $_SESSION['reviews_captcha'] ?></strong></label>
-                        <input type="text" name="captcha" class="form-control" required>
-                    </div>
-                    <button class="btn btn-warning text-dark" type="submit">Опубликовать отзыв</button>
-                </form>
+                <?php else: ?>
+                    <form method="post" class="needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label class="form-label">Ваше имя</label>
+                            <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($user['username']) ?>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Оценка</label>
+                            <select name="rating" class="form-select" required>
+                                <option value="">Выберите</option>
+                                <option value="5">5 - Отлично</option>
+                                <option value="4">4 - Хорошо</option>
+                                <option value="3">3 - Нормально</option>
+                                <option value="2">2 - Слабо</option>
+                                <option value="1">1 - Плохо</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Текст отзыва</label>
+                            <textarea name="message" rows="4" class="form-control" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Капча: введите число <strong><?= (int) $_SESSION['reviews_captcha'] ?></strong></label>
+                            <input type="text" name="captcha" class="form-control" required>
+                        </div>
+                        <button class="btn btn-warning text-dark" type="submit">Опубликовать отзыв</button>
+                    </form>
+                <?php endif; ?>
             </div>
         </div>
     </div>
