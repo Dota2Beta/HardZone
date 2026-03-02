@@ -30,16 +30,16 @@ $flashes = getFlashes();
                 <li class="nav-item"><a class="nav-link" href="<?= url('/about.php') ?>">О нас</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?= url('/reviews.php') ?>">Отзывы</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?= url('/feedback.php') ?>">Обратная связь</a></li>
-                <li class="nav-item ms-lg-2 cart-nav-item">
-                    <a class="cart-icon-link" href="<?= url('/cart.php') ?>" title="Корзина" aria-label="Корзина">
-                        <span class="cart-icon-wrap">
-                            <svg class="cart-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <li class="nav-item ms-lg-2 hz-cart-nav-item">
+                    <a class="hz-cart-icon-link" href="<?= url('/cart.php') ?>" title="Корзина" aria-label="Корзина">
+                        <span class="hz-cart-icon-wrap">
+                            <svg class="hz-cart-icon" viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="M2.75 4.5h2.4c.46 0 .86.32.96.77l1.16 5.1 1.05 4.6c.1.44.49.75.94.75h8.7c.45 0 .84-.31.94-.74l1.67-7.13a1 1 0 0 0-.97-1.23H8.18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
                                 <circle cx="10.2" cy="19.1" r="1.45" fill="currentColor"/>
                                 <circle cx="17.9" cy="19.1" r="1.45" fill="currentColor"/>
                             </svg>
                             <?php if (cartCount() > 0): ?>
-                                <span class="cart-badge"><?= cartCount() ?></span>
+                                <span class="hz-cart-badge"><?= cartCount() ?></span>
                             <?php endif; ?>
                         </span>
                     </a>
