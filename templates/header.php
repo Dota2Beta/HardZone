@@ -34,9 +34,9 @@ $flashes = getFlashes();
                     <a class="cart-icon-link" href="<?= url('/cart.php') ?>" title="Корзина" aria-label="Корзина">
                         <span class="cart-icon-wrap">
                             <svg class="cart-icon" viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M3 4h2l2.2 10.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.6L22 7H7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                                <circle cx="10" cy="20" r="1.6" fill="currentColor"/>
-                                <circle cx="18" cy="20" r="1.6" fill="currentColor"/>
+                                <path d="M2.75 4.5h2.4c.46 0 .86.32.96.77l1.16 5.1 1.05 4.6c.1.44.49.75.94.75h8.7c.45 0 .84-.31.94-.74l1.67-7.13a1 1 0 0 0-.97-1.23H8.18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+                                <circle cx="10.2" cy="19.1" r="1.45" fill="currentColor"/>
+                                <circle cx="17.9" cy="19.1" r="1.45" fill="currentColor"/>
                             </svg>
                             <?php if (cartCount() > 0): ?>
                                 <span class="cart-badge"><?= cartCount() ?></span>

@@ -235,19 +235,23 @@ textarea:focus {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.28);
-    background: rgba(255, 255, 255, 0.08);
-    transition: transform 0.15s ease, background 0.2s ease;
+    width: 50px;
+    height: 50px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: linear-gradient(145deg, rgba(255,255,255,0.18), rgba(255,255,255,0.06));
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255,255,255,0.18);
+    transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
+
 .cart-icon-link:hover {
-    background: rgba(255, 255, 255, 0.16);
+    background: linear-gradient(145deg, rgba(255,255,255,0.24), rgba(255,255,255,0.1));
     color: #fff;
-    transform: translateY(-1px);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255,255,255,0.24);
 }
+
 
 .cart-icon-wrap {
     position: relative;
@@ -255,22 +259,27 @@ textarea:focus {
 }
 
 .cart-icon {
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.25));
 }
+
 
 .cart-badge {
     position: absolute;
-    top: -9px;
-    right: -12px;
-    min-width: 20px;
-    height: 20px;
+    top: -8px;
+    right: -11px;
+    min-width: 21px;
+    height: 21px;
     border-radius: 999px;
-    background: #ffc107;
+    background: linear-gradient(145deg, #ffd861, #ffbf00);
     color: #1d1d1d;
+    border: 1px solid rgba(255,255,255,0.45);
     font-size: 11px;
-    font-weight: 700;
-    line-height: 20px;
+    font-weight: 800;
+    line-height: 19px;
     text-align: center;
     padding: 0 5px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.25);
 }
+
