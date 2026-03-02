@@ -30,7 +30,20 @@ $flashes = getFlashes();
                 <li class="nav-item"><a class="nav-link" href="<?= url('/about.php') ?>">О нас</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?= url('/reviews.php') ?>">Отзывы</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?= url('/feedback.php') ?>">Обратная связь</a></li>
-                <li class="nav-item"><a class="nav-link" href="<?= url('/cart.php') ?>">Корзина (<?= cartCount() ?>)</a></li>
+                <li class="nav-item ms-lg-2 cart-nav-item">
+                    <a class="cart-icon-link" href="<?= url('/cart.php') ?>" title="Корзина" aria-label="Корзина">
+                        <span class="cart-icon-wrap">
+                            <svg class="cart-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M3 4h2l2.2 10.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.6L22 7H7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                <circle cx="10" cy="20" r="1.6" fill="currentColor"/>
+                                <circle cx="18" cy="20" r="1.6" fill="currentColor"/>
+                            </svg>
+                            <?php if (cartCount() > 0): ?>
+                                <span class="cart-badge"><?= cartCount() ?></span>
+                            <?php endif; ?>
+                        </span>
+                    </a>
+                </li>
                 <?php if ($user): ?>
                     <?php if ($user['role'] === 'admin'): ?>
                         <li class="nav-item"><a class="nav-link" href="<?= url('/admin/index.php') ?>">Админ-панель</a></li>
