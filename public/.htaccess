@@ -1,0 +1,7 @@
+ErrorDocument 404 /errors/404.php
+
+RewriteEngine On
+
+# Примеры реальных редиректов
+RewriteRule ^old-catalog/?$ /catalog.php [R=301,L]
+RewriteRule ^promo/?$ /index.php [R=302,L]
