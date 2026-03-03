@@ -343,8 +343,40 @@ textarea:focus {
 }
 
 .hz-footer {
-    background: #121418;
-    border-top: 1px solid rgba(255,255,255,0.08);
+    background:
+        radial-gradient(circle at 15% 0%, rgba(83, 128, 255, 0.18), transparent 38%),
+        linear-gradient(135deg, #0e132b, #121a3a 55%, #0f1730);
+    border-top: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 -12px 30px rgba(0,0,0,0.28);
+}
+
+.footer-brand-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px;
+    padding: 16px;
+}
+
+.footer-brand {
+    letter-spacing: 0.8px;
+    font-weight: 800;
+    color: #fff;
+}
+
+.footer-brand-text {
+    color: #b7c3e6;
+    font-size: 0.95rem;
+    line-height: 1.45;
+}
+
+.footer-contacts {
+    font-size: 0.95rem;
+    color: #dfe6ff;
+}
+
+.footer-contacts a {
+    color: #d2ff3d;
+    text-decoration: none;
 }
 
 .footer-title {
@@ -354,8 +386,8 @@ textarea:focus {
 }
 
 .footer-links {
-    list-style: none;
-    padding: 0;
+    list-style: none !important;
+    padding-left: 0 !important;
     margin: 0;
 }
 
@@ -363,9 +395,17 @@ textarea:focus {
     margin-bottom: 8px;
 }
 
+.footer-links li::before {
+    content: '•';
+    color: rgba(210, 255, 61, 0.85);
+    margin-right: 8px;
+    font-size: 0.8rem;
+}
+
 .footer-links a {
-    color: #aeb7d1;
+    color: #b7c3e6;
     text-decoration: none;
+    transition: color .2s ease;
 }
 
 .footer-links a:hover,
@@ -376,12 +416,17 @@ textarea:focus {
 
 .footer-note {
     color: #aeb7d1;
-    border-top: 1px solid rgba(255,255,255,0.08);
+    border-top: 1px solid rgba(255,255,255,0.1);
     padding-top: 18px;
 }
 
+.footer-note a,
+.footer-bottom a {
+    text-decoration: none;
+}
+
 .footer-bottom {
-    border-top: 1px solid rgba(255,255,255,0.08);
+    border-top: 1px solid rgba(255,255,255,0.1);
     color: #8f97b3;
     display: flex;
     justify-content: space-between;
