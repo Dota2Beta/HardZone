@@ -36,3 +36,21 @@ function url(string $path = ''): string
 
     return appBaseUrl() . $normalizedPath;
 }
+
+
+function assetUrl(string $path): string
+{
+    $normalizedPath = '/' . ltrim($path, '/');
+    $fullPath = realpath(__DIR__ . '/../public' . $normalizedPath);
+
+    if ($fullPath === false || !is_file($fullPath)) {
+        return url($normalizedPath);
+    }
+
+    $mtime = filemtime($fullPath);
+    if ($mtime === false) {
+        return url($normalizedPath);
+    }
+
+    return url($normalizedPath) . '?v=' . $mtime;
+}
