@@ -39,6 +39,13 @@
                     <li><a href="<?= url('/reviews.php') ?>">Отзывы</a></li>
                     <li><a href="<?= url('/feedback.php') ?>">Обратная связь</a></li>
                 </ul>
+
+                <h6 class="footer-title mt-4">Служебные страницы</h6>
+                <ul class="footer-links">
+                    <li><a href="<?= url('/errors/404.php') ?>">Ошибка 404</a></li>
+                    <li><a href="<?= url('/errors/301.php') ?>">Код 301</a></li>
+                    <li><a href="<?= url('/errors/302.php') ?>">Код 302</a></li>
+                </ul>
             </div>
         </div>
 

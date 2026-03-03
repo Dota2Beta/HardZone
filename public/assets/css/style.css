@@ -375,7 +375,7 @@ textarea:focus {
 }
 
 .footer-contacts a {
-    color: #d2ff3d;
+    color: #ffd24a;
     text-decoration: none;
 }
 
@@ -397,7 +397,7 @@ textarea:focus {
 
 .footer-links li::before {
     content: '•';
-    color: rgba(210, 255, 61, 0.85);
+    color: rgba(255, 210, 74, 0.9);
     margin-right: 8px;
     font-size: 0.8rem;
 }
@@ -411,7 +411,7 @@ textarea:focus {
 .footer-links a:hover,
 .footer-note a,
 .footer-bottom a {
-    color: #d2ff3d;
+    color: #ffd24a;
 }
 
 .footer-note {
