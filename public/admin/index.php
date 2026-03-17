@@ -17,17 +17,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
 
 $products = allProducts();
 $feedbackCount = (int) db()->query('SELECT COUNT(*) FROM feedback')->fetchColumn();
+$reviewsCount = (int) db()->query('SELECT COUNT(*) FROM reviews')->fetchColumn();
+$usersCount = (int) db()->query('SELECT COUNT(*) FROM users')->fetchColumn();
+$latestFeedback = db()->query('SELECT id, name, email, message, created_at FROM feedback ORDER BY id DESC LIMIT 5')->fetchAll();
 
 require_once __DIR__ . '/../../templates/header.php';
 ?>
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="mb-0">Админ-панель: товары</h2>
-    <div class="d-flex gap-2">
-        <a href="<?= url('/admin/feedback.php') ?>" class="btn btn-outline-light">Отзывы (<?= $feedbackCount ?>)</a>
+    <h2 class="mb-0">Админ-панель</h2>
+    <div class="d-flex gap-2 flex-wrap">
+        <a href="<?= url('/admin/feedback.php') ?>" class="btn btn-outline-light">Обратная связь (<?= $feedbackCount ?>)</a>
+        <a href="<?= url('/admin/reviews.php') ?>" class="btn btn-outline-light">Отзывы (<?= $reviewsCount ?>)</a>
+        <a href="<?= url('/admin/users.php') ?>" class="btn btn-outline-light">Пользователи (<?= $usersCount ?>)</a>
         <a href="<?= url('/admin/product_form.php') ?>" class="btn btn-primary">Добавить товар</a>
     </div>
 </div>
-<div class="table-responsive">
+
+<div class="table-responsive mb-4">
     <table class="table table-striped align-middle">
         <thead>
         <tr>
@@ -52,5 +58,34 @@ require_once __DIR__ . '/../../templates/header.php';
         <?php endforeach; ?>
         </tbody>
     </table>
+</div>
+
+<div class="card soft-card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="mb-0">Последняя обратная связь</h4>
+            <a href="<?= url('/admin/feedback.php') ?>" class="btn btn-sm btn-outline-light">Все сообщения</a>
+        </div>
+        <?php if (empty($latestFeedback)): ?>
+            <p class="mb-0 text-secondary">Сообщений пока нет.</p>
+        <?php else: ?>
+            <div class="table-responsive">
+                <table class="table table-sm align-middle mb-0">
+                    <thead><tr><th>ID</th><th>Имя</th><th>Email</th><th>Сообщение</th><th>Дата</th></tr></thead>
+                    <tbody>
+                    <?php foreach ($latestFeedback as $item): ?>
+                        <tr>
+                            <td><?= (int) $item['id'] ?></td>
+                            <td><?= htmlspecialchars($item['name']) ?></td>
+                            <td><?= htmlspecialchars($item['email']) ?></td>
+                            <td><?= htmlspecialchars(mb_strimwidth($item['message'], 0, 90, '...')) ?></td>
+                            <td><?= htmlspecialchars((string) $item['created_at']) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
+    </div>
 </div>
 <?php require_once __DIR__ . '/../../templates/footer.php'; ?>

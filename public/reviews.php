@@ -11,24 +11,13 @@ if (empty($_SESSION['reviews_captcha'])) {
     $_SESSION['reviews_captcha'] = random_int(1000, 9999);
 }
 
-try {
-    db()->exec('CREATE TABLE IF NOT EXISTS reviews (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(80) NOT NULL,
-        rating TINYINT NOT NULL,
-        message TEXT NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )');
-} catch (Throwable) {
-    // ignore for degraded mode
-}
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$user) {
         flash('danger', 'Оставлять отзывы могут только зарегистрированные пользователи.');
         header('Location: ' . url('/login.php'));
         exit;
     }
+
     $name = trim($_POST['name'] ?? '');
     $rating = (int) ($_POST['rating'] ?? 0);
     $message = trim($_POST['message'] ?? '');
@@ -39,36 +28,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ((int) $captcha !== (int) ($_SESSION['reviews_captcha'] ?? 0)) {
         flash('danger', 'Неверная капча для отзывов.');
     } else {
-        try {
-            $stmt = db()->prepare('INSERT INTO reviews (name, rating, message) VALUES (:name, :rating, :message)');
-            $stmt->execute([
-                'name' => $name,
-                'rating' => $rating,
-                'message' => $message,
-            ]);
-            flash('success', 'Спасибо! Ваш отзыв опубликован.');
-            $_SESSION['reviews_captcha'] = random_int(1000, 9999);
-            header('Location: ' . url('/reviews.php'));
-            exit;
-        } catch (Throwable) {
-            flash('danger', 'Не удалось сохранить отзыв. Попробуйте позже.');
-        }
+        $stmt = db()->prepare('INSERT INTO reviews (user_id, name, rating, message) VALUES (:user_id, :name, :rating, :message)');
+        $stmt->execute([
+            'user_id' => (int) $user['id'],
+            'name' => $name,
+            'rating' => $rating,
+            'message' => $message,
+        ]);
+
+        flash('success', 'Спасибо! Ваш отзыв опубликован.');
+        $_SESSION['reviews_captcha'] = random_int(1000, 9999);
+        header('Location: ' . url('/reviews.php'));
+        exit;
     }
 
     $_SESSION['reviews_captcha'] = random_int(1000, 9999);
 }
 
-$reviews = [];
-try {
-    $stmt = db()->query('SELECT name, rating, message, created_at FROM reviews ORDER BY id DESC LIMIT 30');
-    $reviews = $stmt->fetchAll();
-} catch (Throwable) {
-    $reviews = [];
-}
+$reviews = db()->query('SELECT id, name, rating, message, created_at FROM reviews ORDER BY id DESC')->fetchAll();
 
 require_once __DIR__ . '/../templates/header.php';
 ?>
-<div class="row g-4 mb-4">
+<div class="row g-4">
     <div class="col-lg-5">
         <div class="card soft-card h-100">
             <div class="card-body p-4">

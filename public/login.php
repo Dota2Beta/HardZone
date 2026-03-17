@@ -17,18 +17,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($login === '' || $password === '') {
         flash('danger', 'Заполните логин/email и пароль.');
     } else {
-        $stmt = db()->prepare('SELECT id, password_hash FROM users WHERE email = :login OR username = :login');
+        $stmt = db()->prepare('SELECT id, password_hash, COALESCE(is_banned, 0) AS is_banned FROM users WHERE email = :login OR username = :login');
         $stmt->execute(['login' => $login]);
         $user = $stmt->fetch();
 
-        if ($user && password_verify($password, $user['password_hash'])) {
+        if (!$user || !password_verify($password, $user['password_hash'])) {
+            flash('danger', 'Неверные данные для входа.');
+        } elseif ((int) ($user['is_banned'] ?? 0) === 1) {
+            flash('danger', 'Ваш аккаунт заблокирован администратором.');
+        } else {
             $_SESSION['user_id'] = $user['id'];
             flash('success', 'Вы вошли в систему.');
             header('Location: ' . url('/index.php'));
             exit;
         }
-
-        flash('danger', 'Неверные данные для входа.');
     }
 }
 

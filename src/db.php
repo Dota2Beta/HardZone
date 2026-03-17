@@ -50,21 +50,22 @@ function tableHasColumn(string $table, string $column): bool
 function ensureSchemaCompatibility(PDO $pdo): void
 {
     try {
-        $stmt = $pdo->prepare(
-            'SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = :schema AND TABLE_NAME = :table AND COLUMN_NAME = :column'
-        );
-        $stmt->execute([
-            'schema' => DB_NAME,
-            'table' => 'users',
-            'column' => 'avatar_path',
-        ]);
-
-        $exists = ((int) $stmt->fetchColumn()) > 0;
-
-        if (!$exists) {
+        if (!tableHasColumn('users', 'avatar_path')) {
             $pdo->exec('ALTER TABLE users ADD COLUMN avatar_path VARCHAR(255) DEFAULT NULL AFTER phone');
         }
+
+        if (!tableHasColumn('users', 'is_banned')) {
+            $pdo->exec('ALTER TABLE users ADD COLUMN is_banned TINYINT(1) NOT NULL DEFAULT 0 AFTER role');
+        }
+
+        if (!tableHasColumn('reviews', 'user_id')) {
+            $pdo->exec('ALTER TABLE reviews ADD COLUMN user_id INT NULL AFTER id');
+        }
+
+        if (!tableHasColumn('reviews', 'updated_at')) {
+            $pdo->exec('ALTER TABLE reviews ADD COLUMN updated_at TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP AFTER created_at');
+        }
     } catch (Throwable) {
-        // Фолбэк: если нет прав на ALTER/metadata, код ниже работает без avatar_path.
+        // Совместимость со старыми БД без прав ALTER.
     }
 }

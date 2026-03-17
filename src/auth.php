@@ -18,6 +18,9 @@ function currentUser(): ?array
     if (tableHasColumn('users', 'avatar_path')) {
         $fields .= ', avatar_path';
     }
+    if (tableHasColumn('users', 'is_banned')) {
+        $fields .= ', is_banned';
+    }
 
     $stmt = db()->prepare('SELECT ' . $fields . ' FROM users WHERE id = :id');
     $stmt->execute(['id' => $_SESSION['user_id']]);
@@ -28,6 +31,12 @@ function currentUser(): ?array
     }
 
     $user['avatar_path'] = $user['avatar_path'] ?? null;
+    $user['is_banned'] = (int) ($user['is_banned'] ?? 0);
+
+    if ($user['is_banned'] === 1) {
+        unset($_SESSION['user_id']);
+        return null;
+    }
 
     return $user;
 }
