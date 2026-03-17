@@ -20,21 +20,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         foreach ($_POST['qty'] ?? [] as $productId => $qty) {
             updateCartItem((int) $productId, (int) $qty);
         }
-        flash('success', 'Корзина обновлена.');
+        flash('success', 'Состав корзины обновлён.');
         header('Location: ' . url('/cart.php'));
         exit;
     }
 
     if ($_POST['action'] === 'checkout') {
         if (!$user) {
-            flash('danger', 'Для покупки товара необходимо войти в аккаунт.');
+            flash('danger', 'Для оформления заказа войдите в личный кабинет.');
             header('Location: ' . url('/login.php'));
             exit;
         }
 
         $items = cartDetailedItems();
         if (empty($items)) {
-            flash('danger', 'Корзина пуста.');
+            flash('danger', 'В корзине пока нет товаров.');
             header('Location: ' . url('/cart.php'));
             exit;
         }
@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
             db()->commit();
             clearCart();
-            flash('success', 'Оплата прошла успешно! Заказ №' . $orderId . ' оформлен.');
+            flash('success', 'Спасибо за покупку! Заказ №' . $orderId . ' успешно оформлен.');
         } catch (Throwable $e) {
             if (db()->inTransaction()) {
                 db()->rollBack();
@@ -126,9 +126,10 @@ $total = cartTotal();
 
 require_once __DIR__ . '/../templates/header.php';
 ?>
-<h1 class="mb-4">Корзина</h1>
+<h1 class="mb-2">Ваша корзина</h1>
+<p class="text-secondary mb-4">Проверьте состав заказа и завершите оформление в пару кликов.</p>
 <?php if (empty($items)): ?>
-    <div class="card soft-card"><div class="card-body">Ваша корзина пока пуста. <a href="<?= url('/catalog.php') ?>">Перейти в каталог</a>.</div></div>
+    <div class="card soft-card"><div class="card-body">В корзине пока нет товаров. Перейдите в <a href="<?= url('/catalog.php') ?>">каталог</a> и выберите подходящую конфигурацию.</div></div>
 <?php else: ?>
     <form method="post" class="card soft-card mb-4">
         <div class="card-body">
@@ -155,12 +156,12 @@ require_once __DIR__ . '/../templates/header.php';
 
     <div class="card soft-card">
         <div class="card-body">
-            <h4 class="mb-3">Оплата заказа</h4>
+            <h4 class="mb-3">Оформление и оплата заказа</h4>
             <p class="mb-3">Итого к оплате: <strong><?= number_format($total, 0, '.', ' ') ?> ₽</strong></p>
 
             <?php if (!$user): ?>
                 <div class="alert alert-warning mb-0">
-                    Для покупки товара необходимо авторизоваться.
+                    Для завершения заказа авторизуйтесь в аккаунте HardZone.
                     <a href="<?= url('/login.php') ?>" class="alert-link">Войти в аккаунт</a>
                 </div>
             <?php else: ?>
@@ -176,7 +177,7 @@ require_once __DIR__ . '/../templates/header.php';
                             <option value="cash">При получении</option>
                         </select>
                     </div>
-                    <div class="col-12"><button class="btn btn-warning text-dark" type="submit">Оплатить и оформить заказ</button></div>
+                    <div class="col-12"><button class="btn btn-warning text-dark" type="submit">Подтвердить заказ и перейти к оплате</button></div>
                 </form>
             <?php endif; ?>
         </div>

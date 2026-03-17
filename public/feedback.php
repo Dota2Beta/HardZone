@@ -47,7 +47,7 @@ require_once __DIR__ . '/../templates/header.php';
         <div class="card soft-card shadow-sm">
             <div class="card-body p-4">
                 <h2 class="mb-3">Обратная связь</h2>
-                <p class="text-secondary">Есть вопросы по заказу или нужна консультация по сборке ПК? Напишите нам.</p>
+                <p class="text-secondary">Есть вопросы по выбору техники, оплате или доставке? Напишите нам — команда HardZone на связи.</p>
                 <form method="post" class="needs-validation" novalidate>
                     <div class="mb-3">
                         <label class="form-label">Ваше имя</label>
@@ -73,7 +73,7 @@ require_once __DIR__ . '/../templates/header.php';
     <div class="col-lg-5">
         <div class="info-panel h-100">
             <h4>HardZone Support</h4>
-            <p class="mb-2">Отвечаем обычно в течение 1 рабочего дня.</p>
+            <p class="mb-2">Обычно отвечаем в течение 15–60 минут в рабочее время.</p>
             <ul>
                 <li>Подбор компьютера под бюджет.</li>
                 <li>Консультация по апгрейду.</li>

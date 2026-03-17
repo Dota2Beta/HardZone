@@ -13,8 +13,8 @@ require_once __DIR__ . '/../templates/header.php';
     <div class="row align-items-center g-4">
         <div class="col-lg-8">
             <span class="chip">главная страница</span>
-            <h1 class="display-5 fw-bold mt-3 mb-3">Добро пожаловать в HardZone</h1>
-            <p class="lead mb-4">На этой странице собраны рекомендации по сайту и быстрый старт: как выбрать компьютер, где посмотреть весь каталог и как связаться с поддержкой.</p>
+            <h1 class="display-5 fw-bold mt-3 mb-3">HardZone — премиальный онлайн-магазин компьютеров</h1>
+            <p class="lead mb-4">Подберите идеальный ПК под игры, работу и творчество: мы собрали экспертные рекомендации, удобную навигацию и быстрый доступ к лучшим предложениям.</p>
             <div class="d-flex gap-2 flex-wrap">
                 <a href="<?= url('/catalog.php') ?>" class="btn btn-warning text-dark fw-semibold">Перейти в каталог</a>
                 <a href="<?= url('/feedback.php') ?>" class="btn btn-outline-light">Задать вопрос</a>
@@ -22,11 +22,11 @@ require_once __DIR__ . '/../templates/header.php';
         </div>
         <div class="col-lg-4">
             <div class="hz-side-card">
-                <h5>Полезно знать перед покупкой</h5>
+                <h5>Экспертные рекомендации перед покупкой</h5>
                 <ul class="mb-0">
-                    <li>Для учебы: минимум 16 GB RAM.</li>
-                    <li>Для игр: смотрите на видеокарту в первую очередь.</li>
-                    <li>Для работы с графикой: важны RAM + SSD + многоядерный CPU.</li>
+                    <li>Для учебы и офиса: оптимально от 16 GB RAM и SSD.</li>
+                    <li>Для игр: в первую очередь ориентируйтесь на видеокарту и систему охлаждения.</li>
+                    <li>Для дизайна и монтажа: важны многоядерный процессор, быстрый SSD и запас оперативной памяти.</li>
                 </ul>
             </div>
         </div>
@@ -34,23 +34,23 @@ require_once __DIR__ . '/../templates/header.php';
 </section>
 
 <div class="row g-3 mb-4">
-    <div class="col-md-4"><div class="feature-box">📌 Совет 1: сначала определите бюджет</div></div>
-    <div class="col-md-4"><div class="feature-box">🧩 Совет 2: выбирайте ПК под задачи</div></div>
-    <div class="col-md-4"><div class="feature-box">🛠️ Совет 3: оставьте запас для апгрейда</div></div>
+    <div class="col-md-4"><div class="feature-box">📌 Шаг 1: определите комфортный бюджет</div></div>
+    <div class="col-md-4"><div class="feature-box">🧩 Шаг 2: выбирайте конфигурацию под ваши задачи</div></div>
+    <div class="col-md-4"><div class="feature-box">🛠️ Шаг 3: оставьте запас мощности на будущее</div></div>
 </div>
 
 <div class="card soft-card mb-4">
     <div class="card-body p-4">
-        <h2 class="mb-3">Рекомендации по сайту</h2>
+        <h2 class="mb-3">Как получить максимум от HardZone</h2>
         <ol class="mb-0">
-            <li>Сначала откройте <strong>Каталог</strong> и сравните модели.</li>
-            <li>Зарегистрируйтесь, чтобы редактировать профиль и загрузить аватар.</li>
-            <li>Если нужна консультация — используйте раздел <strong>Обратная связь</strong>.</li>
+            <li>Откройте <strong>Каталог</strong>, сравните характеристики и выберите подходящую серию.</li>
+            <li>Создайте аккаунт, чтобы отслеживать покупки и персонализировать профиль.</li>
+            <li>Нужна помощь? Напишите в <strong>Обратную связь</strong> — подскажем оптимальный вариант.</li>
         </ol>
     </div>
 </div>
 
-<h2 class="mb-4">Рекомендуемые компьютеры</h2>
+<h2 class="mb-4">Рекомендуемые модели от экспертов HardZone</h2>
 <div class="row g-4">
     <?php foreach ($featuredProducts as $product): ?>
         <div class="col-md-6">

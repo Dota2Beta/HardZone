@@ -54,7 +54,7 @@ require_once __DIR__ . '/../templates/header.php';
         <div class="card soft-card h-100">
             <div class="card-body p-4">
                 <h1 class="mb-3">Отзывы</h1>
-                <p class="text-secondary">Это отдельная страница отзывов, не связанная с разделом обратной связи.</p>
+                <p class="text-secondary">Здесь публикуются реальные впечатления покупателей о сервисе и качестве наших сборок.</p>
                 <?php if (!$user): ?>
                     <div class="alert alert-warning mb-0">
                         Оставлять отзывы могут только зарегистрированные пользователи.

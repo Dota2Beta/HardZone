@@ -40,7 +40,8 @@ require_once __DIR__ . '/../templates/header.php';
     <div class="col-lg-5">
         <div class="card shadow-sm soft-card">
             <div class="card-body p-4">
-                <h2 class="mb-4">Вход</h2>
+                <h2 class="mb-2">Добро пожаловать обратно</h2>
+                <p class="text-secondary mb-4">Войдите в личный кабинет HardZone, чтобы управлять заказами и профилем.</p>
                 <form method="post">
                     <div class="mb-3">
                         <label class="form-label">Логин или email</label>

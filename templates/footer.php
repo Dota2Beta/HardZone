@@ -5,7 +5,7 @@
             <div class="col-12 col-lg-3">
                 <div class="footer-brand-card">
                     <h5 class="footer-brand mb-2">HARDZONE</h5>
-                    <p class="footer-brand-text mb-3">Магазин игровых компьютеров и комплектующих с поддержкой под ваш бюджет.</p>
+                    <p class="footer-brand-text mb-3">Премиальный магазин игровых и рабочих ПК с профессиональным подбором под ваши задачи.</p>
                     <div class="footer-contacts">
                         <div>8 (800) 775-82-35</div>
                         <a href="<?= url('/feedback.php') ?>">Написать в поддержку</a>
@@ -50,7 +50,7 @@
         </div>
 
         <div class="footer-note mt-4">
-            Приглашаем вас в наш <a href="<?= url('/about.php') ?>">шоу-рум</a>. Поможем собрать систему под игры, стриминг, дизайн или работу с AI.
+            Добро пожаловать в HardZone: поможем подобрать и настроить систему под игры, стриминг, дизайн, разработку и задачи AI.
         </div>
 
         <div class="footer-bottom mt-4 pt-3">

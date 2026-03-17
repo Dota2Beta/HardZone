@@ -64,7 +64,8 @@ require_once __DIR__ . '/../templates/header.php';
     <div class="col-lg-6">
         <div class="card shadow-sm soft-card">
             <div class="card-body p-4">
-                <h2 class="mb-4">Регистрация</h2>
+                <h2 class="mb-2">Создание аккаунта HardZone</h2>
+                <p class="text-secondary mb-4">Зарегистрируйтесь, чтобы оформлять заказы быстрее и получать персональные рекомендации.</p>
                 <form method="post" class="needs-validation" novalidate>
                     <div class="mb-3">
                         <label class="form-label">Логин</label>

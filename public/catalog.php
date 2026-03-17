@@ -24,8 +24,8 @@ require_once __DIR__ . '/../templates/header.php';
 ?>
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <h1 class="mb-1">Каталог компьютеров</h1>
-        <p class="text-secondary mb-0">Все доступные модели HardZone в одном месте.</p>
+        <h1 class="mb-1">Каталог готовых игровых и рабочих ПК</h1>
+        <p class="text-secondary mb-0">Только актуальные конфигурации с прозрачными характеристиками и честной ценой.</p>
     </div>
     <a href="<?= url('/cart.php') ?>" class="btn btn-warning text-dark">Корзина (<?= cartCount() ?>)</a>
 </div>
