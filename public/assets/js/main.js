@@ -35,6 +35,17 @@ document.querySelectorAll('.needs-validation').forEach((form) => {
 
     const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
+    const getLocalPoint = (clientX, clientY) => {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+
+        return {
+            x: (clientX - rect.left) * scaleX,
+            y: (clientY - rect.top) * scaleY,
+        };
+    };
+
     const draw = () => {
         if (!image) {
             return;
@@ -109,6 +120,7 @@ document.querySelectorAll('.needs-validation').forEach((form) => {
     };
 
     zoom.addEventListener('input', draw);
+
     if (resetBtn) {
         resetBtn.addEventListener('click', () => {
             zoom.value = '1';
@@ -118,22 +130,32 @@ document.querySelectorAll('.needs-validation').forEach((form) => {
         });
     }
 
-    canvas.addEventListener('mousedown', (e) => startDrag(e.offsetX, e.offsetY));
-    canvas.addEventListener('mousemove', (e) => moveDrag(e.offsetX, e.offsetY));
-    canvas.addEventListener('mouseup', endDrag);
+    canvas.addEventListener('mousedown', (e) => {
+        const p = getLocalPoint(e.clientX, e.clientY);
+        startDrag(p.x, p.y);
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        if (!dragging) return;
+        const p = getLocalPoint(e.clientX, e.clientY);
+        moveDrag(p.x, p.y);
+    });
+
+    window.addEventListener('mouseup', endDrag);
     canvas.addEventListener('mouseleave', endDrag);
 
     canvas.addEventListener('touchstart', (e) => {
         const t = e.touches[0];
-        const r = canvas.getBoundingClientRect();
-        startDrag(t.clientX - r.left, t.clientY - r.top);
+        if (!t) return;
+        const p = getLocalPoint(t.clientX, t.clientY);
+        startDrag(p.x, p.y);
     }, { passive: true });
 
     canvas.addEventListener('touchmove', (e) => {
-        if (!dragging) return;
         const t = e.touches[0];
-        const r = canvas.getBoundingClientRect();
-        moveDrag(t.clientX - r.left, t.clientY - r.top);
+        if (!t || !dragging) return;
+        const p = getLocalPoint(t.clientX, t.clientY);
+        moveDrag(p.x, p.y);
     }, { passive: true });
 
     canvas.addEventListener('touchend', endDrag, { passive: true });

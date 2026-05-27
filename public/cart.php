@@ -160,9 +160,12 @@ require_once __DIR__ . '/../templates/header.php';
             <p class="mb-3">Итого к оплате: <strong><?= number_format($total, 0, '.', ' ') ?> ₽</strong></p>
 
             <?php if (!$user): ?>
-                <div class="alert alert-warning mb-0">
-                    Для завершения заказа авторизуйтесь в аккаунте HardZone.
-                    <a href="<?= url('/login.php') ?>" class="alert-link">Войти в аккаунт</a>
+                <div class="alert alert-warning mb-0 d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2">
+                    <span>Для завершения заказа авторизуйтесь в аккаунте HardZone.</span>
+                    <div class="d-flex gap-2">
+                        <a href="<?= url('/login.php') ?>" class="btn btn-sm btn-outline-dark">Войти в аккаунт</a>
+                        <a href="<?= url('/register.php') ?>" class="btn btn-sm btn-dark">Зарегистрироваться</a>
+                    </div>
                 </div>
             <?php else: ?>
                 <form method="post" class="row g-3">

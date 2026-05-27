@@ -74,8 +74,12 @@ body {
 }
 
 .product-img {
-    height: 220px;
+    width: 100%;
+    height: 240px;
     object-fit: cover;
+    object-position: center;
+    background: #0f1633;
+    display: block;
 }
 
 .card-text,
@@ -432,4 +436,9 @@ textarea:focus {
     justify-content: space-between;
     gap: 12px;
     flex-wrap: wrap;
+}
+
+
+.product-card .card-img-top {
+    border-bottom: 1px solid var(--line);
 }
