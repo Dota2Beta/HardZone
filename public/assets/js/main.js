@@ -25,6 +25,7 @@ document.querySelectorAll('.needs-validation').forEach((form) => {
     const xHidden = document.getElementById('avatarX');
     const yHidden = document.getElementById('avatarY');
     const cHidden = document.getElementById('avatarCanvas');
+    const croppedHidden = document.getElementById('avatarCropped');
 
     let image = null;
     let xValue = 0;
@@ -79,6 +80,10 @@ document.querySelectorAll('.needs-validation').forEach((form) => {
         xHidden.value = String(Math.round(xValue));
         yHidden.value = String(Math.round(yValue));
         cHidden.value = String(size);
+
+        if (croppedHidden) {
+            croppedHidden.value = canvas.toDataURL('image/jpeg', 0.92);
+        }
     };
 
     const startDrag = (x, y) => {
@@ -160,9 +165,21 @@ document.querySelectorAll('.needs-validation').forEach((form) => {
 
     canvas.addEventListener('touchend', endDrag, { passive: true });
 
+
+
+    const profileForm = input.closest('form');
+    if (profileForm) {
+        profileForm.addEventListener('submit', () => {
+            if (image && croppedHidden) {
+                draw();
+            }
+        });
+    }
+
     input.addEventListener('change', () => {
         const file = input.files?.[0];
         if (!file) {
+            if (croppedHidden) croppedHidden.value = '';
             return;
         }
 

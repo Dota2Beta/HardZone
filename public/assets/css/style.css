@@ -442,3 +442,26 @@ textarea:focus {
 .product-card .card-img-top {
     border-bottom: 1px solid var(--line);
 }
+
+
+.product-card .card-body {
+    min-height: 260px;
+}
+
+.product-card .card-title {
+    min-height: 48px;
+}
+
+.product-card .card-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 72px;
+}
+
+@media (max-width: 576px) {
+    .product-img {
+        height: 210px;
+    }
+}

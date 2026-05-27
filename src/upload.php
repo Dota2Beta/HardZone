@@ -141,3 +141,34 @@ function processAvatarCrop(string $tmpPath, string $mime, array $crop): string
 
     return $croppedPath;
 }
+
+
+function saveCroppedAvatarFromDataUrl(string $dataUrl, string $relativeDir): ?string
+{
+    if ($dataUrl === '' || !str_starts_with($dataUrl, 'data:image/')) {
+        return null;
+    }
+
+    if (!preg_match('#^data:image/(png|jpeg|webp);base64,(.+)$#', $dataUrl, $m)) {
+        return null;
+    }
+
+    $ext = $m[1] === 'jpeg' ? 'jpg' : $m[1];
+    $binary = base64_decode($m[2], true);
+    if ($binary === false) {
+        return null;
+    }
+
+    $uploadDir = __DIR__ . '/../public/' . trim($relativeDir, '/');
+    if (!is_dir($uploadDir) && !mkdir($uploadDir, 0775, true) && !is_dir($uploadDir)) {
+        throw new RuntimeException('Не удалось создать папку для аватара.');
+    }
+
+    $filename = bin2hex(random_bytes(12)) . '.' . $ext;
+    $destination = $uploadDir . '/' . $filename;
+    if (file_put_contents($destination, $binary) === false) {
+        throw new RuntimeException('Не удалось сохранить отредактированный аватар.');
+    }
+
+    return url('/' . trim($relativeDir, '/') . '/' . $filename);
+}

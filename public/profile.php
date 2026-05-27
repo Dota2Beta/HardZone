@@ -51,14 +51,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $avatarPath = $user['avatar_path'];
-        $uploaded = handleImageUpload('avatar', 'uploads/avatars', ['jpg', 'jpeg', 'png', 'webp'], [
-            'zoom' => $_POST['avatar_zoom'] ?? 1,
-            'x' => $_POST['avatar_x'] ?? 0,
-            'y' => $_POST['avatar_y'] ?? 0,
-            'canvas' => $_POST['avatar_canvas'] ?? 260,
-        ]);
-        if ($uploaded !== null) {
-            $avatarPath = $uploaded;
+
+        $croppedData = trim((string) ($_POST['avatar_cropped'] ?? ''));
+        if ($croppedData !== '') {
+            $savedCropped = saveCroppedAvatarFromDataUrl($croppedData, 'uploads/avatars');
+            if ($savedCropped !== null) {
+                $avatarPath = $savedCropped;
+            }
+        } else {
+            $uploaded = handleImageUpload('avatar', 'uploads/avatars', ['jpg', 'jpeg', 'png', 'webp'], [
+                'zoom' => $_POST['avatar_zoom'] ?? 1,
+                'x' => $_POST['avatar_x'] ?? 0,
+                'y' => $_POST['avatar_y'] ?? 0,
+                'canvas' => $_POST['avatar_canvas'] ?? 260,
+            ]);
+            if ($uploaded !== null) {
+                $avatarPath = $uploaded;
+            }
         }
 
         $params = [
@@ -162,6 +171,7 @@ require_once __DIR__ . '/../templates/header.php';
                                 <input type="hidden" name="avatar_x" id="avatarX" value="0">
                                 <input type="hidden" name="avatar_y" id="avatarY" value="0">
                                 <input type="hidden" name="avatar_canvas" id="avatarCanvas" value="260">
+                                <input type="hidden" name="avatar_cropped" id="avatarCropped" value="">
                             </div>
 
                             <div class="col-12">
